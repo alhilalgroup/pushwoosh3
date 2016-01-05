@@ -66,7 +66,7 @@ function initPushwoosh() {
         alert(title);
     });
 
-    //initialize Pushwoosh with projectid: "GOOGLE_PROJECT_NUMBER", pw_appid : "PUSHWOOSH_APP_ID". This will trigger all pending push notifications on start.
+    //initialize Pushwoosh with projectid: "GOOGLE_PROJECT_ID", pw_appid : "PUSHWOOSH_APP_ID". This will trigger all pending push notifications on start.
     pushNotification.onDeviceReady({ projectid: "999223907049", pw_appid: "42431-A55AD" });
 
     //register for pushes
@@ -80,3 +80,6 @@ function initPushwoosh() {
         }
     );
 }
+
+
+ 
