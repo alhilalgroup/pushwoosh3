@@ -34,7 +34,9 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        initPushwoosh();
+        document.addEventListener('deviceready', function () {
+            var Pushbots = PushbotsPlugin.initialize("568bcb9d17795914668b4568", { "android": { "sender_id": "999223907049" } });
+        }, false);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -51,35 +53,23 @@ var app = {
 
 app.initialize();
 
-function initPushwoosh() {
-    var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
+// Should be called once app receive the notification
+Pushbots.on("notification:received", function (data) {
+    console.log("received:" + JSON.stringify(data));
+});
 
-    //set push notifications handler
-    document.addEventListener('push-notification', function (event) {
-        var title = event.notification.title;
-        var userData = event.notification.userdata;
-
-        if (typeof (userData) != "undefined") {
-            console.warn('user data: ' + JSON.stringify(userData));
-        }
-
-        alert(title);
-    });
-
-    //initialize Pushwoosh with projectid: "GOOGLE_PROJECT_ID", pw_appid : "PUSHWOOSH_APP_ID". This will trigger all pending push notifications on start.
-    pushNotification.onDeviceReady({ projectid: "999223907049", pw_appid: "42431-A55AD" });
-
-    //register for pushes
-    pushNotification.registerDevice(
-        function (status) {
-            var pushToken = status;
-            console.warn('push token: ' + pushToken);
-        },
-        function (status) {
-            console.warn(JSON.stringify(['failed to register ', status]));
-        }
-    );
-}
+// Should be called once the notification is clicked
+// **important** Doesn't work with iOS while app is closed
+Pushbots.on("notification:clicked", function (data) {
+    console.log("clicked:" + JSON.stringify(data));
+});
 
 
- 
+// Should be called once the device is registered successfully with Apple or Google servers
+Pushbots.on("registered", function (token) {
+    console.log(token);
+});
+
+Pushbots.getRegistrationId(function (token) {
+    console.log("Registration Id:" + token);
+});
