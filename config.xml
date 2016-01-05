@@ -11,7 +11,7 @@
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
 
-  <gap:plugin name="pushwoosh-pgb-plugin" source="npm" />
+  <plugin name="pushwoosh-pgb-plugin" source="npm" />
 
   <access origin="*"/>
   <!-- allow all pages, use for development -->
